@@ -88,10 +88,11 @@ int main (int argc, char **argv) {
      // quota->diskspace_used is bytes. Display in Kb
      display_blocks_used = DIV_UP(quota->diskspace_used, 1024);
 
+
 #ifdef HAVE_INTTYPES_H
-     printf("%d %s %" PRIu64 " %" PRIu64 " %" PRIu64 " %lu %" PRIu64 " %" PRIu64 " %" PRIu64 " %lu\n",
+     printf("%d %s %" PRIu64 " %" PRIu64 " %" PRIu64 " %ld %" PRIu64 " %" PRIu64 " %" PRIu64 " %ld\n",
 #else
-     printf("%d %s %llu %llu %llu %lu %llu %llu %llu %lu\n",
+     printf("%d %s %llu %llu %llu %ld %llu %llu %llu %ld\n",
 #endif
 	    id,
 	    argdata->qfile,
@@ -99,14 +100,14 @@ int main (int argc, char **argv) {
 	    BLOCKS_TO_KB(quota->block_soft),
 	    BLOCKS_TO_KB(quota->block_hard),
 #if ANY_BSD || PLATFORM_DARWIN
-	    (unsigned long)
+	    (long)
 	    ((
 	       (quota->block_soft && (BYTES_TO_BLOCKS(quota->diskspace_used) >= quota->block_soft))
 	    ||
 	       (quota->block_hard && (BYTES_TO_BLOCKS(quota->diskspace_used) >= quota->block_hard))
             ) ? quota->block_time - now : 0),
 #else
-	    (unsigned long) quota->block_time ? quota->block_time - now : 0,
+	    (long) quota->block_time ? quota->block_time - now : 0,
 #endif /* ANY_BSD */
 	    quota->inode_used,
 	    quota->inode_soft,
